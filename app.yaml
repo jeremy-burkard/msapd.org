@@ -8,9 +8,9 @@ handlers:
 - url: /
   script: index.php
 
-- url: /(.+\.(gif|png|jpg|jpeg|ico))$
+- url: /(.+\.(gif|png|jpg|jpeg|ico|css))$
   static_files: \1
-  upload: .+\.(gif|png|jpg|jpeg|ico)$
+  upload: .+\.(gif|png|jpg|jpeg|ico|css)$
   application_readable: true
   
 - url: /(.+\.php|html)$
