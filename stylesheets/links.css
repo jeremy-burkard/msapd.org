@@ -1,0 +1,25 @@
+/*links page*/
+table.links {
+	width: 90%;
+	margin-left: 10%;
+	}
+
+tr.links {
+	vertical-align: top;
+	}
+
+td.links {
+	width: 50%;
+	text-align: left;
+	}
+
+li.linksheader {
+	font-size: 1.2em;
+	font-weight: bold;
+	}
+	
+div.dropbox {
+	width: 330px;
+	border: 2px ridge #696969;
+	margin: 10px 10px 10px 10px;
+	}

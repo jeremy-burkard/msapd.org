@@ -1,0 +1,29 @@
+<div id="pagetop">
+  <div class="loader">
+    <img src="images/PagetopBackground.png" alt="Maine St. Andrew's Pipes &amp; Drums"/>   
+  </div>
+  <img id="pagetopbackground" src="images/PagetopBackground.png" alt="Maine St. Andrew's Pipes &amp; Drums"/>
+	<?php
+		if (strpos($_SERVER['PHP_SELF'],"index.php")!==false) {$current="homemenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"ourband.php")!==false) {$current="ourbandmenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"gallery.php")!==false) {$current="gallerymenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"videos.php")!==false) {$current="videosmenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"roster.php")!==false) {$current="rostermenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"schedule.php")!==false) {$current="schedulemenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"contact.php")!==false) {$current="contactmenu";}
+		elseif (strpos($_SERVER['PHP_SELF'],"links.php")!==false) {$current="linksmenu";}
+		else {$current="homemenu";}
+	?>
+	<div id="topmenu">
+		<ul id="menu">
+			<li><a <?php if($current=="homemenu") {echo "class='currentpage'";} ?> href="index.php">Home</a></li>
+			<li><a <?php if($current=="ourbandmenu") {echo "class='currentpage'";} ?> href="ourband.php">Our Band</a></li>
+			<li><a <?php if($current=="gallerymenu") {echo "class='currentpage'";} ?> href="gallery.php">Photos</a></li>
+			<li><a <?php if($current=="videosmenu") {echo "class='currentpage'";} ?> href="videos.php">Videos</a></li>
+			<li><a <?php if($current=="rostermenu") {echo "class='currentpage'";} ?> href="roster.php">Roster</a></li>
+			<li><a <?php if($current=="schedulemenu") {echo "class='currentpage'";} ?> href="schedule.php">Schedule</a></li>
+			<li><a <?php if($current=="contactmenu") {echo "class='currentpage'";} ?> href="contact.php">Contact Us</a></li>
+			<li><a <?php if($current=="linksmenu") {echo "class='currentpage'";} ?> href="links.php">Links</a></li>
+		</ul>
+	</div>
+</div>

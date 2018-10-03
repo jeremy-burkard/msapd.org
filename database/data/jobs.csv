@@ -1,0 +1,21 @@
+-- phpMyAdmin SQL Dump
+-- version 3.1.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Oct 06, 2009 at 02:45 PM
+-- Server version: 5.1.30
+-- PHP Version: 5.2.8
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `msapd`
+--
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`ID`, `Name`, `Desc`, `Season`, `StartDate`, `StartTime`, `EndDate`, `EndTime`, `Location`, `MapURL`, `MoreInfo`, `MoreInfoURL`) VALUES
+(1, 'NHSSA Indoor Games', '', 2009, '2009-04-11', '13:30:00', NULL, NULL, 'NH Technical Institute, Concord, NH', 'http://maps.yahoo.com/#mvt=m&lat=43.22358&lon=-71.529545&zoom=16&q1=31%2520College%2520Drive%252C%2520Concord%252C%2520NH', 'New Hampshire School of Scottish Arts', 'http://www.nhssa.org/index.php?view=details&id=19:nhssa-indoor-scottish-arts-festival&option=com_eventlist&Itemid=127');
