@@ -1,0 +1,117 @@
+---
+import { faq } from '../data/faq';
+---
+
+<section id="faq" class="section section--tint faq" aria-labelledby="faq-title">
+  <div class="container faq__inner">
+    <div class="faq__head">
+      <p class="eyebrow">New players</p>
+      <h2 id="faq-title">Questions people ask</h2>
+    </div>
+
+    <div class="faq__list">
+      {
+        faq.map((item) => (
+          <details class="faq__item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="faq__more">
+      Do you have a question we didn’t answer?
+      <a class="btn btn--blue" href="#contact" data-topic="other">Ask us</a>
+    </p>
+  </div>
+</section>
+
+<style lang="scss">
+  .faq {
+    &__inner {
+      display: grid;
+      gap: var(--space-6);
+
+      @include up('lg') {
+        grid-template-columns: 4fr 8fr;
+        align-items: start;
+      }
+    }
+
+    &__head h2 {
+      margin: 0;
+    }
+
+    &__list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    &__item {
+      border-radius: var(--radius-md);
+      background: var(--c-white);
+      box-shadow: var(--shadow-card);
+
+      summary {
+        position: relative;
+        padding: var(--space-4) calc(var(--space-5) + 2rem) var(--space-4) var(--space-5);
+        font-family: var(--font-serif);
+        font-weight: 650;
+        @include type('lg');
+        list-style: none;
+        cursor: pointer;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+
+        // Plus that rotates into a cross when open
+        &::after {
+          content: '+';
+          position: absolute;
+          inset-block-start: 50%;
+          inset-inline-end: var(--space-5);
+          translate: 0 -50%;
+          font-family: var(--font-sans);
+          font-size: 1.6rem;
+          font-weight: 400;
+          line-height: 1;
+          color: var(--c-red-600);
+          transition: rotate 180ms ease;
+
+          @include reduced-motion {
+            transition: none;
+          }
+        }
+
+        &:focus-visible {
+          border-radius: var(--radius-md);
+        }
+      }
+
+      &[open] summary::after {
+        rotate: 45deg;
+      }
+
+      p {
+        margin: 0;
+        padding: 0 var(--space-5) var(--space-5);
+        color: var(--text-soft);
+      }
+    }
+
+    &__more {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-3) var(--space-4);
+      margin: 0;
+      font-weight: 600;
+
+      @include up('lg') {
+        grid-column: 2;
+      }
+    }
+  }
+</style>

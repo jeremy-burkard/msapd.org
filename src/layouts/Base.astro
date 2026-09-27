@@ -1,0 +1,68 @@
+---
+import '@fontsource/uncial-antiqua/400.css';
+import '@fontsource-variable/source-serif-4/wght.css';
+import '@fontsource-variable/source-sans-3/wght.css';
+import '../styles/global.scss';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  /** Use this exact <title> instead of "{title} · {site.name}". */
+  fullTitle?: string;
+  description?: string;
+  ogImage?: string;
+  /** Extra JSON-LD objects for this page (e.g. FAQPage). */
+  jsonLd?: object[];
+}
+
+const { title, description = site.description, ogImage, jsonLd = [] } = Astro.props;
+const fullTitle = Astro.props.fullTitle ?? (title ? `${title} · ${site.name}` : site.seoTitle);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  name: site.name,
+  alternateName: site.shortName,
+  foundingDate: String(site.founded),
+  genre: 'Highland bagpipe music',
+  url: 'https://msapd.org',
+  sameAs: [site.facebookUrl, site.flickrUrl],
+  location: {
+    '@type': 'Place',
+    name: site.rehearsal.place,
+    address: { '@type': 'PostalAddress', addressLocality: 'Bangor', addressRegion: 'ME', addressCountry: 'US' },
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta name="theme-color" content="#0c1a30" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta property="og:image:width" content="1200" />}
+    {ogImageUrl && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    {jsonLd.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,88 @@
+---
+const occasions = [
+  { title: 'Parades & civic events', body: 'We march in Memorial Day and Fourth of July parades, town days and dedications.' },
+  { title: 'Memorials & funerals', body: 'A lone piper or the full band can play with care and dignity.' },
+  { title: 'Weddings & celebrations', body: 'We can pipe in the bride, lead the procession, or surprise your guests.' },
+  { title: 'Festivals & schools', body: 'We perform at Celtic festivals and concerts, and we offer hands-on programs for students.' },
+];
+---
+
+<section id="hire" class="section section--tint hire" aria-labelledby="hire-title">
+  <div class="container">
+    <div class="hire__head">
+      <div>
+        <p class="eyebrow">Hire the band</p>
+        <h2 id="hire-title">Would you like pipes for your occasion?</h2>
+        <p class="hire__intro">
+          We play for civic events, memorials, weddings and more, from a single piper to the full band.
+        </p>
+      </div>
+      <a class="btn btn--blue" href="#contact" data-topic="booking">Ask about booking</a>
+    </div>
+    <ul class="occasions">
+      {
+        occasions.map((o) => (
+          <li>
+            <h3>{o.title}</h3>
+            <p>{o.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+  .hire__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-block-end: var(--space-6);
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .hire__intro {
+    margin: var(--space-3) 0 0;
+    color: var(--text-soft);
+    max-inline-size: 38rem;
+  }
+
+  .occasions {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include up('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include up('lg') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    li {
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      background: var(--c-white);
+      border-block-start: 4px solid var(--c-forest-500);
+      box-shadow: var(--shadow-card);
+    }
+
+    h3 {
+      @include type('lg');
+      margin-block-end: var(--space-2);
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-soft);
+    }
+  }
+</style>

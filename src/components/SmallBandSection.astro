@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import bandPhoto from '../assets/photos/full-band-summer-festival.jpg';
+import { site } from '../data/site';
+---
+
+<section class="section small-band" aria-labelledby="small-band-title">
+  <div class="container small-band__grid">
+    <div class="small-band__text">
+      <p class="eyebrow">Why now</p>
+      <h2 id="small-band-title">We’re a small band with a big sound, and there’s room for you.</h2>
+      <p>
+        Maine St. Andrew’s has played across Maine since {site.founded}. Our ranks have grown small in
+        recent years, and we’re rebuilding. We think that makes this the best time to join.
+      </p>
+      <p>
+        In a small band, you won’t get lost in the back row. You’ll learn one-on-one from players with
+        decades of experience, and you’ll have a real voice in where the band goes next. Our goal is to
+        return to the competition field, and we’d love your help getting there.
+      </p>
+    </div>
+    <figure class="small-band__photo">
+      <Image
+        src={bandPhoto}
+        widths={[480, 768, 1024]}
+        sizes="(min-width: 64rem) 34rem, 100vw"
+        alt="Maine St. Andrew's pipers and drummers in Maine State Tartan kilts playing together in a circle at an outdoor summer festival"
+      />
+    </figure>
+  </div>
+</section>
+
+<style lang="scss">
+  .small-band {
+    // The Join section follows on the same background; don't double the gap.
+    padding-block-end: 0;
+
+    &__grid {
+      display: grid;
+      gap: var(--space-7);
+      align-items: center;
+
+      @include up('lg') {
+        grid-template-columns: 6fr 5fr;
+      }
+    }
+
+    &__text {
+      h2 {
+        @include type('2xl');
+        max-inline-size: 22ch;
+      }
+
+      p {
+        max-inline-size: 36rem;
+        color: var(--text-soft);
+      }
+    }
+
+    &__photo {
+      position: relative;
+      margin: 0;
+
+      :global(img) {
+        inline-size: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+      }
+
+      // A tartan offset frame peeking out behind the photo.
+      &::before {
+        content: '';
+        position: absolute;
+        inset: var(--space-4) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-4);
+        z-index: -1;
+        border-radius: var(--radius-lg);
+        @include tartan(0.9px);
+      }
+    }
+  }
+
+  .small-band__photo {
+    isolation: isolate;
+    margin-inline-end: var(--space-4);
+  }
+</style>

@@ -1,0 +1,302 @@
+---
+import { LEAD_TOPICS, LIMITS } from '../lib/lead-topics';
+import { site } from '../data/site';
+---
+
+<section id="contact" class="section contact" aria-labelledby="contact-title">
+  <div class="container contact__grid">
+    <div class="contact__intro">
+      <p class="eyebrow">Get in touch</p>
+      <h2 id="contact-title">We’d love to hear from you.</h2>
+      <p class="lede">
+        Whether you’re thinking about learning, looking for a band, or hoping to book pipes for an
+        event, send us a note. A band member will get back to you soon.
+      </p>
+      <p class="contact__alt">
+        Or find us on <a href={site.facebookUrl} rel="noopener" target="_blank">Facebook</a>.
+      </p>
+    </div>
+
+    <form class="lead-form" id="lead-form" novalidate>
+      <fieldset class="lead-form__topics">
+        <legend>I’d like to…</legend>
+        {
+          Object.entries(LEAD_TOPICS).map(([value, label], i) => (
+            <label class="topic">
+              <input type="radio" name="topic" value={value} checked={i === 0} />
+              <span>{label}</span>
+            </label>
+          ))
+        }
+      </fieldset>
+
+      <div class="field">
+        <label for="lead-name">Your name</label>
+        <input id="lead-name" name="name" autocomplete="name" required maxlength={LIMITS.name} />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="lead-email">Email</label>
+          <input
+            id="lead-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            maxlength={LIMITS.email}
+          />
+        </div>
+        <div class="field">
+          <label for="lead-phone">Phone <span class="optional">(optional)</span></label>
+          <input id="lead-phone" name="phone" type="tel" autocomplete="tel" maxlength={LIMITS.phone} />
+        </div>
+      </div>
+
+      <div class="field" data-show-for="learn experienced">
+        <label for="lead-instrument">Instrument</label>
+        <select id="lead-instrument" name="instrument">
+          <option value="">Not sure yet</option>
+          <option>Bagpipes</option>
+          <option>Snare drum</option>
+          <option>Tenor drum</option>
+          <option>Bass drum</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="lead-message">Message <span class="optional">(optional)</span></label>
+        <textarea id="lead-message" name="message" rows="4" maxlength={LIMITS.message}></textarea>
+      </div>
+
+      <!-- Honeypot: hidden from people, tempting to bots. -->
+      <div class="hp" aria-hidden="true">
+        <label for="lead-website">Website</label>
+        <input id="lead-website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button class="btn" type="submit">Send</button>
+      <p class="lead-form__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { LEAD_TOPICS, type LeadTopic } from '../lib/lead-topics';
+
+  const form = document.querySelector<HTMLFormElement>('#lead-form');
+  const status = form?.querySelector<HTMLParagraphElement>('.lead-form__status');
+
+  function setTopic(topic: string) {
+    const radio = form?.querySelector<HTMLInputElement>(`input[name="topic"][value="${topic}"]`);
+    if (radio) {
+      radio.checked = true;
+      syncConditionalFields();
+    }
+  }
+
+  function syncConditionalFields() {
+    const topic = new FormData(form!).get('topic') as string;
+    form!.querySelectorAll<HTMLElement>('[data-show-for]').forEach((el) => {
+      el.hidden = !el.dataset.showFor!.split(' ').includes(topic);
+    });
+  }
+
+  // Buttons elsewhere on the page (e.g. "Ask about booking") preselect a topic.
+  document.querySelectorAll<HTMLAnchorElement>('a[data-topic]').forEach((a) => {
+    a.addEventListener('click', () => setTopic(a.dataset.topic!));
+  });
+
+  form?.addEventListener('change', (e) => {
+    if ((e.target as HTMLInputElement).name === 'topic') syncConditionalFields();
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !status) return;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const data = new FormData(form);
+    if (data.get('website')) return; // bot
+
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    button.disabled = true;
+    status.dataset.state = 'pending';
+    status.textContent = 'Sending…';
+
+    const topic = data.get('topic') as LeadTopic;
+    try {
+      const { submitLead } = await import('../lib/leads');
+      await submitLead({
+        topic: topic in LEAD_TOPICS ? topic : 'other',
+        name: String(data.get('name') ?? '').trim(),
+        email: String(data.get('email') ?? '').trim(),
+        phone: String(data.get('phone') ?? '').trim(),
+        instrument: topic === 'learn' || topic === 'experienced' ? String(data.get('instrument') ?? '') : '',
+        message: String(data.get('message') ?? '').trim(),
+      });
+      form.reset();
+      syncConditionalFields();
+      status.dataset.state = 'ok';
+      status.textContent =
+        topic === 'booking'
+          ? 'Thank you! We’ll be in touch about your event soon.'
+          : 'Thank you! A band member will be in touch soon. We can’t wait to meet you.';
+    } catch (err) {
+      console.error(err);
+      status.dataset.state = 'error';
+      status.textContent =
+        'Sorry, something went wrong sending your message. Please try again, or reach us on Facebook.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  if (form) syncConditionalFields();
+</script>
+
+<style lang="scss">
+  .contact {
+    &__grid {
+      display: grid;
+      gap: var(--space-7);
+
+      @include up('lg') {
+        grid-template-columns: 5fr 7fr;
+      }
+    }
+
+    &__alt {
+      color: var(--text-soft);
+    }
+  }
+
+  .lead-form {
+    display: grid;
+    gap: var(--space-4);
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    background: var(--c-white);
+    box-shadow: var(--shadow-card);
+    border-block-start: 6px solid var(--c-water-700);
+
+    .btn {
+      justify-self: start;
+    }
+
+    &__topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin: 0;
+      padding: 0;
+      border: 0;
+
+      legend {
+        margin-block-end: var(--space-2);
+        font-weight: 700;
+      }
+    }
+
+    &__status {
+      margin: 0;
+      font-weight: 600;
+
+      &:empty {
+        display: none;
+      }
+
+      &[data-state='ok'] {
+        color: var(--c-forest-700);
+      }
+
+      &[data-state='error'] {
+        color: var(--c-red-600);
+      }
+    }
+  }
+
+  .topic {
+    input {
+      @include visually-hidden;
+    }
+
+    span {
+      display: inline-block;
+      padding: var(--space-2) var(--space-4);
+      border: 1.5px solid var(--c-sky-300);
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    input:checked + span {
+      background: var(--c-water-700);
+      border-color: var(--c-water-700);
+      color: var(--c-white);
+    }
+
+    input:focus-visible + span {
+      @include focus-ring;
+    }
+  }
+
+  .field-row {
+    display: grid;
+    gap: var(--space-4);
+
+    @include up('sm') {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-1);
+
+    &[hidden] {
+      display: none;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      inline-size: 100%;
+      padding: 0.7rem 0.85rem;
+      border: 1.5px solid #c9d3e0;
+      border-radius: var(--radius-md);
+      background: var(--c-paper);
+      transition: border-color 120ms ease, background-color 120ms ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--c-water-700);
+        background: var(--c-white);
+        box-shadow: 0 0 0 3px rgb(91 149 207 / 0.3);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--text-soft);
+  }
+
+  .hp {
+    position: absolute;
+    left: -9999px;
+  }
+</style>

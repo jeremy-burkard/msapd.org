@@ -1,0 +1,32 @@
+/*gallery page*/	
+#slideshow {
+	float: right;
+	z-index: 0;
+	border: 5px ridge #696969;
+	margin: 10px;
+	padding: 0;
+	}
+	
+#gallerycontent {
+	padding-top: 0;
+	}
+
+ul li.galleryyear {
+	font-weight: bold;
+	padding-top: 10px;
+	}
+
+div.gallerylist {
+	margin-left: 5px;
+	}
+
+div.gallerylist ul li a {
+	margin: 0%;
+	padding-left: 2%;
+	font-size: 0.8em;
+	color: #142234;
+	}
+
+div.gallerylist ul li a:hover {
+	color: white;
+	}

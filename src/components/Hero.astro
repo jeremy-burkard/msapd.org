@@ -1,0 +1,178 @@
+---
+import { Picture } from 'astro:assets';
+import heroPhoto from '../assets/photos/pipes-and-snare-concert.jpg';
+import { site } from '../data/site';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media">
+    <Picture
+      src={heroPhoto}
+      formats={['avif', 'webp']}
+      widths={[480, 768, 1024]}
+      sizes="(min-width: 64rem) 60vw, 100vw"
+      alt="Two MSAPD pipers and a snare drummer in Maine State Tartan kilts performing on a concert stage"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+
+  <div class="hero__content container">
+    <p class="hero__band">{site.name} · {site.city}</p>
+    <h1 id="hero-title">Free bagpipe and drum lessons <span>in Bangor.</span></h1>
+    <p class="hero__tagline">A Maine pipe band since {site.founded}.</p>
+    <p class="hero__lede">
+      We teach Highland piping and drumming at no cost to anyone who would like to join the band. You
+      don’t need any experience or your own instrument. All you need to do is come to a practice.
+    </p>
+    <div class="hero__actions">
+      <a class="btn" href="#join">Come to a practice</a>
+      <a class="btn btn--ghost" href="#hire">Book the band</a>
+    </div>
+
+    <dl class="rehearsal-chip">
+      <div>
+        <dt>Rehearsals</dt>
+        <dd>{site.rehearsal.days}</dd>
+      </div>
+      <div>
+        <dt>Time</dt>
+        <dd>{site.rehearsal.time}</dd>
+      </div>
+      <div>
+        <dt>Place</dt>
+        <dd>
+          <a href={site.rehearsal.mapUrl} rel="noopener" target="_blank">{site.rehearsal.place}</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style lang="scss">
+  .hero {
+    position: relative;
+    display: grid;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--c-water-900);
+    color: var(--c-paper);
+
+    @include up('lg') {
+      min-block-size: min(88vh, 50rem);
+      align-items: center;
+    }
+
+    &__media {
+      position: relative;
+
+      :global(img) {
+        inline-size: 100%;
+        block-size: 100%;
+        max-block-size: 60vh;
+        object-fit: cover;
+        object-position: 30% 30%;
+      }
+
+      // Fade the photo into the navy ground.
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 55%, var(--c-water-900));
+      }
+
+      @include up('lg') {
+        position: absolute;
+        inset: 0 0 0 38%;
+        z-index: -1;
+
+        :global(img) {
+          max-block-size: none;
+        }
+
+        &::after {
+          background:
+            linear-gradient(to right, var(--c-water-900) 0%, rgb(12 26 48 / 0.55) 30%, transparent 65%),
+            linear-gradient(to top, var(--c-water-900) 0%, transparent 30%);
+        }
+      }
+    }
+
+    &__content {
+      padding-block: var(--space-6) var(--space-8);
+
+      @include up('lg') {
+        padding-block: var(--space-9);
+      }
+    }
+
+    &__band {
+      margin-block-end: var(--space-4);
+      font-family: var(--font-display);
+      @include type('lg');
+      color: var(--c-sky-300);
+    }
+
+    h1 {
+      max-inline-size: 18ch;
+      margin-block-end: var(--space-5);
+      color: var(--c-white);
+
+      span {
+        color: var(--c-sky-300);
+      }
+    }
+
+    &__tagline {
+      margin-block: calc(-1 * var(--space-2)) var(--space-4);
+      font-family: var(--font-serif);
+      font-style: italic;
+      @include type('lg');
+      color: var(--c-sky-300);
+    }
+
+    &__lede {
+      max-inline-size: 34rem;
+      @include type('lg');
+      color: rgb(248 245 239 / 0.86);
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-block: var(--space-6) var(--space-7);
+    }
+  }
+
+  .rehearsal-chip {
+    display: inline-grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, auto));
+    gap: var(--space-4) var(--space-6);
+    margin: 0;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid rgb(169 203 239 / 0.28);
+    border-inline-start: 4px solid var(--c-red-500);
+    border-radius: var(--radius-md);
+    background: rgb(12 26 48 / 0.7);
+    backdrop-filter: blur(6px);
+
+    dt {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--c-sky-300);
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 600;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+</style>

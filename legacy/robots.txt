@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+Disallow: /member/
+Sitemap: http://www.msapd.org/Sitemap.xml

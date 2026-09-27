@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<Base title="Page not found">
+  <SiteHeader />
+  <main id="main" class="section">
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1>That tune’s not in our book.</h1>
+      <p class="lede">The page you’re looking for has moved or no longer exists. The old site was retired in 2026.</p>
+      <a class="btn" href="/">Back to the home page</a>
+    </div>
+  </main>
+  <SiteFooter />
+</Base>

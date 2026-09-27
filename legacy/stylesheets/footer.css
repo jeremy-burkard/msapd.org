@@ -1,0 +1,29 @@
+div.footer {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 0;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	position: relative;
+	clear: both;
+	width: 50%;
+	text-align: center;
+	display: block;
+	font-size: 0.6em;
+	color: DarkSlateGray;
+	border-top: 3px dotted black;
+	}
+	
+table.footer {
+	width: 100%;
+	height: 100%;
+	vertical-align: middle;
+	}
+	
+.addthis {
+	margin-left: auto;
+	margin-right: auto;
+	width: 240px;
+	text-decoration: none;
+	}

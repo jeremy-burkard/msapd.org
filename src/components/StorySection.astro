@@ -1,0 +1,181 @@
+---
+import { Image } from 'astro:assets';
+import bassDrum from '../assets/photos/bass-drum-concert.jpg';
+import { site } from '../data/site';
+
+const timeline = [
+  {
+    year: 'Before',
+    title: 'Two bands, one tradition',
+    body: 'Northern Border Caledonia, which grew out of the Argyll Highlanders, and Acadian Pipes & Drums carried Highland piping across Downeast and Central Maine.',
+  },
+  {
+    year: String(site.founded),
+    title: 'Maine St. Andrew’s is formed.',
+    body: 'The two bands join forces as Maine St. Andrew’s Pipes & Drums, playing parades, concerts, Highland games and school programs across Maine, New England and Canada.',
+  },
+  {
+    year: '2009',
+    title: 'First place at the Maine Highland Games',
+    body: 'The band takes first place at Thomas Point Beach, Brunswick.',
+  },
+  {
+    year: 'Today',
+    title: 'Rebuilding, and aiming high',
+    body: 'We’re a small band with a long memory, and we’re rebuilding our ranks. We hope to return to the competition field someday, and we’d love you to be part of it.',
+  },
+];
+---
+
+<section id="story" class="section section--dark story" aria-labelledby="story-title">
+  <div class="container story__grid">
+    <div class="story__text">
+      <p class="eyebrow">Our story</p>
+      <h2 id="story-title">Three decades of pipes and drums in Maine.</h2>
+      <p class="lede">
+        Generations of players have worn the band’s tartan, including teachers, tradespeople,
+        students and veterans, all bound by a love of the pipes.
+      </p>
+
+      <ol class="timeline">
+        {
+          timeline.map((t) => (
+            <li>
+              <span class="timeline__year">{t.year}</span>
+              <div>
+                <h3>{t.title}</h3>
+                <p>{t.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <aside class="story__aside">
+      <Image
+        src={bassDrum}
+        widths={[480, 800]}
+        sizes="(min-width: 64rem) 30rem, 100vw"
+        alt="An MSAPD snare drummer and bass drummer performing; the bass drum reads Maine St. Andrew's Pipes & Drums"
+      />
+
+      <div class="tartan-card">
+        <div class="tartan-card__swatch" role="img" aria-label="Swatch of the Maine State Tartan"></div>
+        <div class="tartan-card__body">
+          <h3>The Maine State Tartan</h3>
+          <p>
+            Designed in 1964 and believed to be the oldest district tartan in the United States. Light
+            blue for the sky, dark blue for the waters, green for the forests, and a thin red line for
+            the bloodline of the people.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style lang="scss">
+  .story {
+    position: relative;
+
+    &__grid {
+      display: grid;
+      gap: var(--space-8);
+
+      @include up('lg') {
+        grid-template-columns: 7fr 5fr;
+        align-items: start;
+      }
+    }
+
+    &__aside {
+      display: grid;
+      gap: var(--space-5);
+
+      @include up('lg') {
+        position: sticky;
+        top: calc(var(--header-h) + var(--space-6));
+      }
+
+      > :global(img) {
+        inline-size: 100%;
+        border-radius: var(--radius-lg);
+      }
+    }
+  }
+
+  .timeline {
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: var(--space-4);
+      padding-block-end: var(--space-6);
+
+      // The connecting line
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0.6rem auto 0 calc(5.5rem + var(--space-4) / 2);
+        inline-size: 2px;
+        background: rgb(169 203 239 / 0.25);
+      }
+
+      &:last-child::before {
+        display: none;
+      }
+    }
+
+    &__year {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      @include type('lg');
+      color: var(--c-sky-300);
+      text-align: end;
+      padding-inline-end: var(--space-4);
+    }
+
+    h3 {
+      @include type('lg');
+      margin-block-end: var(--space-2);
+      color: var(--c-white);
+    }
+
+    p {
+      color: var(--text-soft);
+      margin: 0;
+    }
+  }
+
+  .tartan-card {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--c-water-800);
+    border: 1px solid rgb(169 203 239 / 0.18);
+
+    &__swatch {
+      @include tartan(1.6px);
+      block-size: 9rem;
+    }
+
+    &__body {
+      padding: var(--space-5);
+
+      h3 {
+        @include type('lg');
+        color: var(--c-white);
+        margin-block-end: var(--space-2);
+      }
+
+      p {
+        margin: 0;
+        color: var(--text-soft);
+      }
+    }
+  }
+</style>
