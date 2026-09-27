@@ -20,6 +20,5 @@ npm run test:rules     # Firestore security rules against the emulator (needs Ja
 ## Deploy
 
 ```sh
-firebase use <project-id>
-npm run deploy         # hosting + Firestore/Storage rules
+npm run deploy         # build, then deploy hosting + Firestore rules to msapd-org
 ```

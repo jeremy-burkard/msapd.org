@@ -13,7 +13,7 @@ This page is for band leadership, and for any developer (or AI coding assistant)
 | Thing | Where | Who has access |
 |---|---|---|
 | Band Google account | `TODO: band account email` | Jeremy, `TODO: officer 1`, `TODO: officer 2` (password in `TODO: where the credentials are kept`) |
-| Firebase project (hosting, database, files) | [console.firebase.google.com](https://console.firebase.google.com), project `TODO: project id` | Owners: band Google account, Jeremy |
+| Firebase project (hosting, database, files) | [console.firebase.google.com](https://console.firebase.google.com), project `msapd-org` ("MSAPD Website") | Owner: Jeremy (burkardsoftwarelabs@gmail.com). **TODO:** add the band Google account as Owner |
 | Code | GitHub, `TODO: org/repo (currently jeremy-burkard/msapd.org)` | Owners: band Google account, Jeremy |
 | Domain msapd.org | Registrar: `TODO: registrar`. Renews `TODO: date`, auto-renew `TODO: on/off` | `TODO` |
 | Interest-form submissions | Firebase console → Firestore → `leads` collection (until the portal ships) | Firebase project owners |
@@ -39,7 +39,7 @@ Point them at this repository and ask them to read, in order:
 
 Give them **Editor** access to the Firebase project and write access to the GitHub repo, using their own accounts. Never share the band account password with a contractor.
 
-To deploy a change: `npm install`, `npm run build`, then `firebase deploy --only hosting,firestore:rules` (while signed in to an account with access to the project).
+To deploy a change: `npm install`, copy the web config into `.env` (see `.env.example`), then run `npm run deploy` while signed in to the Firebase CLI with an account that has access to the project.
 
 ## Change Log
 
