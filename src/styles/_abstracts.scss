@@ -1,0 +1,5 @@
+// Sass-only helpers (no CSS output). Auto-injected into every component
+// <style lang="scss"> via astro.config.mjs.
+@forward 'tokens';
+@forward 'mixins';
+@forward 'tartan';

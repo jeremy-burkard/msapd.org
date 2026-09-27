@@ -1,0 +1,10 @@
+rules_version = '2';
+
+// Phase 0: nothing in Storage yet. Locked until the portal adds auth + roles.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

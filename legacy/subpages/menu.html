@@ -1,0 +1,24 @@
+<?php
+	if (strpos($_SERVER['PHP_SELF'],"index.php")!==false) {$currentpage="homemenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"ourband.php")!==false) {$currentpage="ourbandmenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"gallery.php")!==false) {$currentpage="gallerymenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"videos.php")!==false) {$currentpage="videosmenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"roster.php")!==false) {$currentpage="rostermenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"schedule.php")!==false) {$currentpage="schedulemenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"contact.php")!==false) {$currentpage="contactmenu";}
+	elseif (strpos($_SERVER['PHP_SELF'],"links.php")!==false) {$currentpage="linksmenu";}
+	else {$currentpage="homemenu";}
+?>
+
+<div id="mainmenu">
+	<ul>
+		<li><a <?php if($currentpage=="homemenu") {echo "class='currentpage'";} ?> href="index.php">Home</a></li>
+		<li><a <?php if($currentpage=="ourbandmenu") {echo "class='currentpage'";} ?> href="ourband.php">Our Band</a></li>
+		<li><a <?php if($currentpage=="gallerymenu") {echo "class='currentpage'";} ?> href="gallery.php">Photos</a></li>
+		<li><a <?php if($currentpage=="videosmenu") {echo "class='currentpage'";} ?> href="videos.php">Videos</a></li>
+		<li><a <?php if($currentpage=="rostermenu") {echo "class='currentpage'";} ?> href="roster.php">Roster</a></li>
+		<li><a <?php if($currentpage=="schedulemenu") {echo "class='currentpage'";} ?> href="schedule.php">Schedule</a></li>
+		<li><a <?php if($currentpage=="contactmenu") {echo "class='currentpage'";} ?> href="contact.php">Contact Us</a></li>
+		<li><a <?php if($currentpage=="linksmenu") {echo "class='currentpage'";} ?> href="links.php">Links</a></li>
+	</ul>
+</div>

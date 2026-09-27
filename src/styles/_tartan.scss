@@ -1,0 +1,72 @@
+// Maine State Tartan, rendered in CSS.
+//
+// A tartan is a "sett": a sequence of coloured threads that repeats and
+// mirrors, woven identically in warp (vertical) and weft (horizontal). We
+// draw the warp as a solid repeating gradient, lay a translucent weft over
+// it so the crossings blend, then add a fine 45° twill texture.
+//
+// The sett below is an interpretation of the Maine tartan's colours and
+// proportions for decorative use, not an official thread count.
+
+@use 'sass:list';
+@use 'sass:color';
+@use 'sass:map';
+@use 'tokens' as t;
+
+$maine-sett: (
+  ('sky-500', 18),
+  ('water-800', 5),
+  ('sky-300', 2),
+  ('water-800', 5),
+  ('sky-500', 18),
+  ('water-900', 10),
+  ('forest-700', 16),
+  ('red-500', 1.5),
+  ('forest-700', 16),
+  ('water-900', 10),
+);
+
+/// Build gradient colour stops for one full, symmetric repeat of a sett.
+@function _sett-stops($sett, $unit, $alpha) {
+  $stops: ();
+  $pos: 0;
+  // Mirror the sett (pivot on the last stripe) so the repeat is symmetric.
+  $mirrored: $sett;
+  @for $i from list.length($sett) - 1 through 2 {
+    $mirrored: list.append($mirrored, list.nth($sett, $i));
+  }
+  @each $stripe in $mirrored {
+    $name: list.nth($stripe, 1);
+    $width: list.nth($stripe, 2) * $unit;
+    $c: color.change(t.color($name), $alpha: $alpha);
+    $stops: list.append($stops, $c $pos, comma);
+    $stops: list.append($stops, $c ($pos + $width), comma);
+    $pos: $pos + $width;
+  }
+  @return (stops: $stops, size: $pos);
+}
+
+/// Paint an element with the Maine tartan.
+/// @param {Length} $unit - width of one thread-count unit (scales the sett)
+/// @param {Number} $weft-alpha - opacity of the horizontal threads
+@mixin tartan($unit: 1px, $weft-alpha: 0.55, $sett: $maine-sett) {
+  $warp: _sett-stops($sett, $unit, 1);
+  $weft: _sett-stops($sett, $unit, $weft-alpha);
+  $size: map.get($warp, size);
+
+  background-color: t.color('water-900');
+  background-image:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 3px),
+    linear-gradient(to bottom, #{map.get($weft, stops)}),
+    linear-gradient(to right, #{map.get($warp, stops)});
+  background-size:
+    auto,
+    100% $size,
+    $size 100%;
+}
+
+/// A thin tartan ribbon, e.g. under a header or above a footer.
+@mixin tartan-ribbon($height: 10px, $unit: 0.6px) {
+  @include tartan($unit);
+  block-size: $height;
+}

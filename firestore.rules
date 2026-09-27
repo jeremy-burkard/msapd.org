@@ -1,0 +1,36 @@
+rules_version = '2';
+
+// Phase 0: the only public write is the interest/contact form (`leads`).
+// Everything else is locked until the member portal (Phase 1) adds auth + roles.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isString(v, min, max) {
+      return v is string && v.size() >= min && v.size() <= max;
+    }
+
+    // Limits mirror src/lib/lead-topics.ts LIMITS.
+    function isValidLead(d) {
+      return d.keys().hasOnly(['name', 'email', 'phone', 'topic', 'instrument', 'message', 'source', 'status', 'createdAt'])
+        && d.keys().hasAll(['name', 'email', 'topic', 'source', 'status', 'createdAt'])
+        && isString(d.name, 1, 100)
+        && isString(d.email, 3, 200) && d.email.matches('^[^@ ]+@[^@ ]+[.][^@ ]+$')
+        && isString(d.get('phone', ''), 0, 40)
+        && d.topic in ['learn', 'experienced', 'booking', 'other']
+        && isString(d.get('instrument', ''), 0, 40)
+        && isString(d.get('message', ''), 0, 2000)
+        && d.source == 'landing'
+        && d.status == 'new'
+        && d.createdAt == request.time;
+    }
+
+    match /leads/{leadId} {
+      allow create: if isValidLead(request.resource.data);
+      allow read, update, delete: if false; // leadership reads via console until Phase 1
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

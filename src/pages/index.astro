@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import SmallBandSection from '../components/SmallBandSection.astro';
+import JoinSection from '../components/JoinSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import StorySection from '../components/StorySection.astro';
+import HireSection from '../components/HireSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import MobileCta from '../components/MobileCta.astro';
+import { getImage } from 'astro:assets';
+import ogPhoto from '../assets/photos/pipes-and-snare-concert.jpg';
+import { faq } from '../data/faq';
+
+// 1200×630 social preview, cropped from the hero photo.
+const og = await getImage({ src: ogPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<Base ogImage={og.src} jsonLd={[faqJsonLd]}>
+  <SiteHeader />
+  <main id="main">
+    <Hero />
+    <SmallBandSection />
+    <JoinSection />
+    <FaqSection />
+    <StorySection />
+    <HireSection />
+    <ContactSection />
+  </main>
+  <SiteFooter />
+  <MobileCta />
+</Base>

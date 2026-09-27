@@ -1,0 +1,9 @@
+/*schedule*/
+table.schedule {
+	width: 90%;
+	margin-left: 10%;
+	}
+	
+table.schedule td {
+	width: 50%;
+}

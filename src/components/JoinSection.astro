@@ -1,0 +1,258 @@
+---
+import { Image } from 'astro:assets';
+import bassDrummer from '../assets/photos/bass-drummer-outdoors.jpg';
+import piper from '../assets/photos/piper-outdoors.jpg';
+import { site } from '../data/site';
+
+const steps = [
+  {
+    title: 'Come to a rehearsal.',
+    body: 'Stop by, listen, meet the band, and ask us anything. There is no audition and no commitment.',
+  },
+  {
+    title: 'Learn the basics.',
+    body: 'Pipers begin on a practice chanter and drummers on a practice pad. We have loaner instruments to get you started, and band members teach you for free at rehearsal.',
+  },
+  {
+    title: 'March out with the band.',
+    body: 'When you’re ready, you’ll join us at parades, concerts and festivals. The band provides most of the uniform, so you’ll only need to bring a white shirt.',
+  },
+];
+
+const season = [
+  'Memorial Day parades',
+  'Bangor–Brewer Fourth of July',
+  'Scottish Tattoo at Fort Knox',
+  'Colonial Pemaquid concert',
+  'Maine Celtic Celebration',
+  'Town festivals & school programs',
+];
+---
+
+<section id="join" class="section join" aria-labelledby="join-title">
+  <div class="container">
+    <div class="join__intro">
+      <p class="eyebrow">Join the band</p>
+      <h2 id="join-title">You don’t need any experience to start.</h2>
+      <p class="lede">
+        Nearly every piper and drummer in the band started exactly where you are now. We’ll teach you at
+        no cost, alongside people who love this music and want to share it.
+      </p>
+    </div>
+
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li class="step">
+            <span class="step__num" aria-hidden="true">{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="join__grid">
+      <figure class="join__photos" aria-label="Band members in uniform">
+        <Image
+          src={piper}
+          widths={[320, 520]}
+          sizes="(min-width: 64rem) 22rem, 45vw"
+          alt="An MSAPD piper playing outdoors at a summer Highland games"
+        />
+        <Image
+          src={bassDrummer}
+          widths={[320, 520]}
+          sizes="(min-width: 64rem) 22rem, 45vw"
+          alt="MSAPD's bass drummer with the band's painted Maine St. Andrew's bass drum"
+        />
+      </figure>
+
+      <div class="join__details">
+        <div class="card card--rehearsal">
+          <h3>Rehearsals</h3>
+          <p class="card__big">{site.rehearsal.days}<br />{site.rehearsal.time}</p>
+          <p>
+            {site.rehearsal.place}, {site.rehearsal.city}<br />
+            <a href={site.rehearsal.mapUrl} rel="noopener" target="_blank">Get directions</a>
+          </p>
+          <p class="card__note">
+            Please drop us a note before your first visit so someone is watching for you at the door.
+          </p>
+          <a class="btn btn--blue" href="#contact" data-topic="learn">Tell us you’re coming</a>
+        </div>
+
+        <div class="card">
+          <h3>Already play?</h3>
+          <p>
+            Have you moved to Maine, or are you ready to dust off your pipes or sticks? Experienced
+            pipers and drummers are always welcome. Come and play a set with us.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Where we’ve played</h3>
+          <p>Over the years, we’ve been proud to play at events like these.</p>
+          <ul class="season">
+            {season.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .join {
+    &__intro {
+      max-inline-size: 44rem;
+      margin-block-end: var(--space-7);
+    }
+
+    &__grid {
+      display: grid;
+      gap: var(--space-6);
+      margin-block-start: var(--space-8);
+
+      @include up('lg') {
+        grid-template-columns: 5fr 6fr;
+        align-items: start;
+      }
+    }
+
+    &__photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin: 0;
+
+      :global(img) {
+        inline-size: 100%;
+        aspect-ratio: 3 / 4;
+        object-fit: cover;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+      }
+
+      :global(img:nth-child(2)) {
+        margin-block-start: var(--space-7);
+      }
+    }
+
+    &__details {
+      display: grid;
+      gap: var(--space-4);
+
+      @include up('md') {
+        grid-template-columns: 1fr 1fr;
+
+        .card--rehearsal {
+          grid-column: 1 / -1;
+        }
+      }
+    }
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+
+    @include up('md') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .step {
+    position: relative;
+    padding-block-start: var(--space-5);
+    border-block-start: 3px solid var(--c-water-800);
+
+    &__num {
+      display: grid;
+      place-items: center;
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+      margin-block-end: var(--space-3);
+      border-radius: 50%;
+      background: var(--c-forest-700);
+      color: var(--c-white);
+      font-family: var(--font-serif);
+      font-weight: 700;
+      @include type('lg');
+    }
+
+    p {
+      color: var(--text-soft);
+    }
+  }
+
+  .card {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--c-white);
+    box-shadow: var(--shadow-card);
+
+    h3 {
+      @include type('lg');
+      margin-block-end: var(--space-2);
+    }
+
+    p:last-child {
+      margin-block-end: 0;
+    }
+
+    &--rehearsal {
+      position: relative;
+      overflow: hidden;
+      background: var(--c-water-900);
+      color: var(--c-paper);
+      padding-block-start: calc(var(--space-5) + 12px);
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto;
+        @include tartan-ribbon(12px, 0.7px);
+      }
+
+      a:not(.btn) {
+        color: var(--c-sky-300);
+      }
+    }
+
+    &__note {
+      @include type('sm');
+      color: rgb(248 245 239 / 0.8);
+    }
+
+    &__big {
+      font-family: var(--font-serif);
+      @include type('xl');
+      font-weight: 650;
+      line-height: 1.25;
+      color: var(--c-white);
+    }
+  }
+
+  .season {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      gap: var(--space-2);
+      padding-block: 0.3rem;
+      border-block-end: 1px dashed var(--c-paper-200);
+
+      &::before {
+        content: '♪';
+        color: var(--c-red-500);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,51 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:list';
+@use 'tokens' as *;
+
+@mixin up($bp) {
+  @media (min-width: map.get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+@mixin down($bp) {
+  @media (max-width: calc(#{map.get($breakpoints, $bp)} - 0.02rem)) {
+    @content;
+  }
+}
+
+/// Fluid clamp() between two sizes across 360px–1280px viewports.
+@function fluid($min, $max, $vw-min: 22.5rem, $vw-max: 80rem) {
+  $slope: math.div($max - $min, $vw-max - $vw-min);
+  $intercept: $min - $slope * $vw-min;
+  @return clamp(#{$min}, #{$intercept} + #{$slope * 100}vw, #{$max});
+}
+
+@mixin type($step) {
+  $sizes: map.get($type-scale, $step);
+  font-size: fluid(list.nth($sizes, 1), list.nth($sizes, 2));
+}
+
+@mixin focus-ring($color: var(--c-sky-500)) {
+  outline: 3px solid $color;
+  outline-offset: 3px;
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

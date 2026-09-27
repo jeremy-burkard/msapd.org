@@ -1,0 +1,89 @@
+/*page layouts*/
+
+body {
+	min-height: 100%;
+	overflow: auto;
+	text-align: center;
+	background-color: #142234;
+	font-family: Verdana;
+	margin: 0, 0, 0, 0;
+	padding: 0, 0, 0, 0;
+	}
+
+div.site {
+	position: relative;
+	width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	}
+	
+div.content {
+	width: 100%;
+	min-height: 100%;
+	padding-top: 20px;
+	background-image: url("../images/background.png");
+	background-repeat: repeat-y;
+	background-attachment: fixed;
+	border: 3px ridge black;
+	color: black;
+	float: left;
+	clear: left;
+	}
+
+/*general formatting*/
+a {
+	color: blue;
+	}
+
+td {
+	padding-bottom: 20px;
+	}
+	
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	}
+
+.padded {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	}
+	
+span.firstletter {
+	float: left;
+	font-size: 250%;
+	line-height: 100%;
+	width: 0.7em;
+	}
+	
+.caption {
+	font-size: .8em;
+	font-weight: bold;
+	}
+
+.heading {
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: underline;
+	padding-bottom: 20px;
+	}
+	
+.red {
+	color: red;
+	}
+
+.yellow {
+	color: yellow;
+	}
+
+.green {
+	color: green;
+	}
+	
+.blue {
+	color: blue;
+	}

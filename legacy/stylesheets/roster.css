@@ -1,0 +1,51 @@
+/*roster*/
+table.links {
+	width: 90%;
+	margin-left: 10%;
+	}
+
+tr.links {
+	vertical-align: top;
+	}
+
+td.links {
+	width: 50%;
+	text-align: left;
+	}
+
+li.linksheader {
+	font-size: 1.2em;
+	font-weight: bold;
+	}
+
+table.roster {
+	width: 96%;
+	margin-left: 2%;
+	margin-right: 2%;
+	border: none;
+	}
+
+table.roster a {
+	float: left;
+	margin-right: 5px;
+	}
+
+td.roster {
+	border: 2px ridge #696969;
+	vertical-align: top;
+	width: 50%;
+	}
+	
+div.rostertext {
+	font-size: 0.8em;
+	margin-left: 5px;
+	margin-right: 5px;
+	}
+	
+div.rostercaption {
+	text-align: center;
+	font-weight: bold;
+	text-decoration: underline;
+	margin-bottom: 5px;
+	}
+
